@@ -67,10 +67,10 @@ class Item
     #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
 
-    #[ORM\OneToMany(mappedBy: 'item', targetEntity: Image::class, orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'item', targetEntity: Image::class)]
     private Collection $images;
 
-    #[ORM\OneToMany(mappedBy: 'item', targetEntity: Link::class, orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'item', targetEntity: Link::class)]
     private Collection $links;
 
     public function __construct()

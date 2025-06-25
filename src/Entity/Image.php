@@ -30,7 +30,7 @@ class Image
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     private ?int $externalId = null;
 
     #[ORM\ManyToOne(inversedBy: 'images')]
@@ -51,7 +51,7 @@ class Image
         return $this->externalId;
     }
 
-    public function setExternalId(int $externalId): static
+    public function setExternalId(?int $externalId): static
     {
         $this->externalId = $externalId;
 
