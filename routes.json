@@ -1,0 +1,685 @@
+{
+    "api": {
+      "base_url": "/api",
+      "authentication": {
+        "type": "JWT",
+        "header": "Authorization: Bearer {token}"
+      },
+      "routes": {
+        "auth": {
+          "register": {
+            "method": "POST",
+            "path": "/api/auth/register",
+            "access": "PUBLIC",
+            "payload": {
+              "username": "string (required, unique)",
+              "email": "string (required, unique, valid email)",
+              "password": "string (required)"
+            },
+            "responses": {
+              "201": {
+                "message": "User registered successfully",
+                "user": {
+                  "id": "integer",
+                  "username": "string",
+                  "email": "string"
+                }
+              },
+              "400": {
+                "error": "Missing required fields: username, password, email"
+              },
+              "409": {
+                "error": "Username already exists"
+              },
+              "403": {
+                "message": "Registration is disabled, please contact the administrator.",
+                "status": "error",
+                "code": 403,
+                "timestamp": "string (ISO 8601)"
+              }
+            }
+          },
+          "login": {
+            "method": "POST",
+            "path": "/api/auth/login",
+            "access": "PUBLIC",
+            "payload": {
+              "username": "string (required)",
+              "password": "string (required)"
+            },
+            "responses": {
+              "200": {
+                "token": "string (JWT)"
+              },
+              "401": {
+                "error": "Invalid credentials"
+              }
+            }
+          }
+        },
+        "users": {
+          "list": {
+            "method": "GET",
+            "path": "/api/users",
+            "access": "AUTHENTICATED",
+            "query_params": {
+              "page": "integer (optional)",
+              "limit": "integer (optional)"
+            },
+            "responses": {
+              "200": {
+                "hydra:member": [
+                  {
+                    "@id": "string",
+                    "@type": "User",
+                    "id": "integer",
+                    "username": "string",
+                    "email": "string",
+                    "roles": ["string"],
+                    "items": ["string (IRI)"],
+                    "images": ["string (IRI)"],
+                    "links": ["string (IRI)"]
+                  }
+                ],
+                "hydra:totalItems": "integer",
+                "hydra:view": {
+                  "@id": "string",
+                  "hydra:first": "string",
+                  "hydra:last": "string",
+                  "hydra:next": "string (optional)"
+                }
+              }
+            }
+          },
+          "get": {
+            "method": "GET",
+            "path": "/api/users/{id}",
+            "access": "AUTHENTICATED",
+            "responses": {
+              "200": {
+                "@id": "string",
+                "@type": "User",
+                "id": "integer",
+                "username": "string",
+                "email": "string",
+                "roles": ["string"],
+                "items": ["string (IRI)"],
+                "images": ["string (IRI)"],
+                "links": ["string (IRI)"]
+              },
+              "404": {
+                "error": "User not found"
+              }
+            }
+          },
+          "create": {
+            "method": "POST",
+            "path": "/api/users",
+            "access": "AUTHENTICATED",
+            "payload": {
+              "username": "string (required, unique)",
+              "email": "string (required, unique, valid email)",
+              "password": "string (required)",
+              "roles": ["string (optional)"]
+            },
+            "responses": {
+              "201": {
+                "@id": "string",
+                "@type": "User",
+                "id": "integer",
+                "username": "string",
+                "email": "string",
+                "roles": ["string"]
+              },
+              "400": {
+                "error": "Validation failed",
+                "details": ["string"]
+              }
+            }
+          },
+          "update": {
+            "method": "PUT",
+            "path": "/api/users/{id}",
+            "access": "AUTHENTICATED",
+            "payload": {
+              "username": "string (optional, unique)",
+              "email": "string (optional, unique, valid email)",
+              "password": "string (optional)",
+              "roles": ["string (optional)"]
+            },
+            "responses": {
+              "200": {
+                "@id": "string",
+                "@type": "User",
+                "id": "integer",
+                "username": "string",
+                "email": "string",
+                "roles": ["string"]
+              },
+              "404": {
+                "error": "User not found"
+              }
+            }
+          },
+          "delete": {
+            "method": "DELETE",
+            "path": "/api/users/{id}",
+            "access": "AUTHENTICATED",
+            "responses": {
+              "204": "No content",
+              "404": {
+                "error": "User not found"
+              }
+            }
+          }
+        },
+        "items": {
+          "list": {
+            "method": "GET",
+            "path": "/api/items",
+            "access": "AUTHENTICATED",
+            "query_params": {
+              "page": "integer (optional)",
+              "limit": "integer (optional)",
+              "user": "string (IRI, optional)"
+            },
+            "responses": {
+              "200": {
+                "hydra:member": [
+                  {
+                    "@id": "string",
+                    "@type": "Item",
+                    "id": "integer",
+                    "name": "string",
+                    "description": "string",
+                    "informations": "object (optional)",
+                    "skills": "object (optional)",
+                    "datasource": "string (optional)",
+                    "startedAt": "string (ISO 8601, optional)",
+                    "endedAt": "string (ISO 8601, optional)",
+                    "location": "string (optional)",
+                    "contractType": "string (optional)",
+                    "companyName": "string (optional)",
+                    "user": "string (IRI)",
+                    "images": ["string (IRI)"],
+                    "links": ["string (IRI)"]
+                  }
+                ],
+                "hydra:totalItems": "integer",
+                "hydra:view": {
+                  "@id": "string",
+                  "hydra:first": "string",
+                  "hydra:last": "string",
+                  "hydra:next": "string (optional)"
+                }
+              }
+            }
+          },
+          "get": {
+            "method": "GET",
+            "path": "/api/items/{id}",
+            "access": "AUTHENTICATED",
+            "responses": {
+              "200": {
+                "@id": "string",
+                "@type": "Item",
+                "id": "integer",
+                "name": "string",
+                "description": "string",
+                "informations": "object (optional)",
+                "skills": "object (optional)",
+                "datasource": "string (optional)",
+                "startedAt": "string (ISO 8601, optional)",
+                "endedAt": "string (ISO 8601, optional)",
+                "location": "string (optional)",
+                "contractType": "string (optional)",
+                "companyName": "string (optional)",
+                "user": "string (IRI)",
+                "images": ["string (IRI)"],
+                "links": ["string (IRI)"]
+              },
+              "404": {
+                "error": "Item not found"
+              }
+            }
+          },
+          "create": {
+            "method": "POST",
+            "path": "/api/items",
+            "access": "AUTHENTICATED",
+            "payload": {
+              "name": "string (required)",
+              "description": "string (required)",
+              "informations": "object (optional)",
+              "skills": "object (optional)",
+              "datasource": "string (optional)",
+              "startedAt": "string (ISO 8601, optional)",
+              "endedAt": "string (ISO 8601, optional)",
+              "location": "string (optional)",
+              "contractType": "string (optional)",
+              "companyName": "string (optional)",
+              "user": "string (IRI, required)"
+            },
+            "responses": {
+              "201": {
+                "@id": "string",
+                "@type": "Item",
+                "id": "integer",
+                "name": "string",
+                "description": "string",
+                "informations": "object (optional)",
+                "skills": "object (optional)",
+                "datasource": "string (optional)",
+                "startedAt": "string (ISO 8601, optional)",
+                "endedAt": "string (ISO 8601, optional)",
+                "location": "string (optional)",
+                "contractType": "string (optional)",
+                "companyName": "string (optional)",
+                "user": "string (IRI)",
+                "images": ["string (IRI)"],
+                "links": ["string (IRI)"]
+              },
+              "400": {
+                "error": "Validation failed",
+                "details": ["string"]
+              }
+            }
+          },
+          "update": {
+            "method": "PUT",
+            "path": "/api/items/{id}",
+            "access": "AUTHENTICATED",
+            "payload": {
+              "name": "string (optional)",
+              "description": "string (optional)",
+              "informations": "object (optional)",
+              "skills": "object (optional)",
+              "datasource": "string (optional)",
+              "startedAt": "string (ISO 8601, optional)",
+              "endedAt": "string (ISO 8601, optional)",
+              "location": "string (optional)",
+              "contractType": "string (optional)",
+              "companyName": "string (optional)",
+              "user": "string (IRI, optional)"
+            },
+            "responses": {
+              "200": {
+                "@id": "string",
+                "@type": "Item",
+                "id": "integer",
+                "name": "string",
+                "description": "string",
+                "informations": "object (optional)",
+                "skills": "object (optional)",
+                "datasource": "string (optional)",
+                "startedAt": "string (ISO 8601, optional)",
+                "endedAt": "string (ISO 8601, optional)",
+                "location": "string (optional)",
+                "contractType": "string (optional)",
+                "companyName": "string (optional)",
+                "user": "string (IRI)",
+                "images": ["string (IRI)"],
+                "links": ["string (IRI)"]
+              },
+              "404": {
+                "error": "Item not found"
+              }
+            }
+          },
+          "delete": {
+            "method": "DELETE",
+            "path": "/api/items/{id}",
+            "access": "AUTHENTICATED",
+            "responses": {
+              "204": "No content",
+              "404": {
+                "error": "Item not found"
+              }
+            }
+          },
+          "toggle_shared": {
+            "method": "POST",
+            "path": "/api/items/{id}/toggle_shared",
+            "access": "AUTHENTICATED",
+            "responses": {
+              "200": {
+                "message": "Item shared status toggled",
+                "shared": "boolean"
+              },
+              "404": {
+                "error": "Item not found"
+              }
+            }
+          },
+          "shared_download": {
+            "method": "GET",
+            "path": "/api/items/{id}/shared",
+            "access": "PUBLIC",
+            "responses": {
+              "200": {
+                "@id": "string",
+                "@type": "Item",
+                "id": "integer",
+                "name": "string",
+                "description": "string",
+                "informations": "object (optional)",
+                "skills": "object (optional)",
+                "datasource": "string (optional)",
+                "startedAt": "string (ISO 8601, optional)",
+                "endedAt": "string (ISO 8601, optional)",
+                "location": "string (optional)",
+                "contractType": "string (optional)",
+                "companyName": "string (optional)",
+                "user": "string (IRI)",
+                "images": ["string (IRI)"],
+                "links": ["string (IRI)"]
+              },
+              "404": {
+                "error": "Item not found or not shared"
+              }
+            }
+          }
+        },
+        "images": {
+          "list": {
+            "method": "GET",
+            "path": "/api/images",
+            "access": "AUTHENTICATED",
+            "query_params": {
+              "page": "integer (optional)",
+              "limit": "integer (optional)",
+              "user": "string (IRI, optional)",
+              "item": "string (IRI, optional)"
+            },
+            "responses": {
+              "200": {
+                "hydra:member": [
+                  {
+                    "@id": "string",
+                    "@type": "Image",
+                    "id": "integer",
+                    "externalId": "integer",
+                    "user": "string (IRI)",
+                    "item": "string (IRI)"
+                  }
+                ],
+                "hydra:totalItems": "integer",
+                "hydra:view": {
+                  "@id": "string",
+                  "hydra:first": "string",
+                  "hydra:last": "string",
+                  "hydra:next": "string (optional)"
+                }
+              }
+            }
+          },
+          "get": {
+            "method": "GET",
+            "path": "/api/images/{id}",
+            "access": "AUTHENTICATED",
+            "responses": {
+              "200": {
+                "@id": "string",
+                "@type": "Image",
+                "id": "integer",
+                "externalId": "integer",
+                "user": "string (IRI)",
+                "item": "string (IRI)"
+              },
+              "404": {
+                "error": "Image not found"
+              }
+            }
+          },
+          "create": {
+            "method": "POST",
+            "path": "/api/images",
+            "access": "AUTHENTICATED",
+            "payload": {
+              "externalId": "integer (required)",
+              "user": "string (IRI, required)",
+              "item": "string (IRI, required)"
+            },
+            "responses": {
+              "201": {
+                "@id": "string",
+                "@type": "Image",
+                "id": "integer",
+                "externalId": "integer",
+                "user": "string (IRI)",
+                "item": "string (IRI)"
+              },
+              "400": {
+                "error": "Validation failed",
+                "details": ["string"]
+              }
+            }
+          },
+          "update": {
+            "method": "PUT",
+            "path": "/api/images/{id}",
+            "access": "AUTHENTICATED",
+            "payload": {
+              "externalId": "integer (optional)",
+              "user": "string (IRI, optional)",
+              "item": "string (IRI, optional)"
+            },
+            "responses": {
+              "200": {
+                "@id": "string",
+                "@type": "Image",
+                "id": "integer",
+                "externalId": "integer",
+                "user": "string (IRI)",
+                "item": "string (IRI)"
+              },
+              "404": {
+                "error": "Image not found"
+              }
+            }
+          },
+          "delete": {
+            "method": "DELETE",
+            "path": "/api/images/{id}",
+            "access": "AUTHENTICATED",
+            "responses": {
+              "204": "No content",
+              "404": {
+                "error": "Image not found"
+              }
+            }
+          }
+        },
+        "links": {
+          "list": {
+            "method": "GET",
+            "path": "/api/links",
+            "access": "AUTHENTICATED",
+            "query_params": {
+              "page": "integer (optional)",
+              "limit": "integer (optional)",
+              "user": "string (IRI, optional)",
+              "item": "string (IRI, optional)"
+            },
+            "responses": {
+              "200": {
+                "hydra:member": [
+                  {
+                    "@id": "string",
+                    "@type": "Link",
+                    "id": "integer",
+                    "url": "string",
+                    "user": "string (IRI)",
+                    "item": "string (IRI)"
+                  }
+                ],
+                "hydra:totalItems": "integer",
+                "hydra:view": {
+                  "@id": "string",
+                  "hydra:first": "string",
+                  "hydra:last": "string",
+                  "hydra:next": "string (optional)"
+                }
+              }
+            }
+          },
+          "get": {
+            "method": "GET",
+            "path": "/api/links/{id}",
+            "access": "AUTHENTICATED",
+            "responses": {
+              "200": {
+                "@id": "string",
+                "@type": "Link",
+                "id": "integer",
+                "url": "string",
+                "user": "string (IRI)",
+                "item": "string (IRI)"
+              },
+              "404": {
+                "error": "Link not found"
+              }
+            }
+          },
+          "create": {
+            "method": "POST",
+            "path": "/api/links",
+            "access": "AUTHENTICATED",
+            "payload": {
+              "url": "string (required, max 2048 chars)",
+              "user": "string (IRI, required)",
+              "item": "string (IRI, required)"
+            },
+            "responses": {
+              "201": {
+                "@id": "string",
+                "@type": "Link",
+                "id": "integer",
+                "url": "string",
+                "user": "string (IRI)",
+                "item": "string (IRI)"
+              },
+              "400": {
+                "error": "Validation failed",
+                "details": ["string"]
+              }
+            }
+          },
+          "update": {
+            "method": "PUT",
+            "path": "/api/links/{id}",
+            "access": "AUTHENTICATED",
+            "payload": {
+              "url": "string (optional, max 2048 chars)",
+              "user": "string (IRI, optional)",
+              "item": "string (IRI, optional)"
+            },
+            "responses": {
+              "200": {
+                "@id": "string",
+                "@type": "Link",
+                "id": "integer",
+                "url": "string",
+                "user": "string (IRI)",
+                "item": "string (IRI)"
+              },
+              "404": {
+                "error": "Link not found"
+              }
+            }
+          },
+          "delete": {
+            "method": "DELETE",
+            "path": "/api/links/{id}",
+            "access": "AUTHENTICATED",
+            "responses": {
+              "204": "No content",
+              "404": {
+                "error": "Link not found"
+              }
+            }
+          }
+        }
+      },
+      "health": {
+        "method": "GET",
+        "path": "/health",
+        "access": "PUBLIC",
+        "responses": {
+          "200": {
+            "status": "healthy",
+            "timestamp": "string (ISO 8601)",
+            "environment": "string"
+          }
+        }
+      },
+      "documentation": {
+        "method": "GET",
+        "path": "/api/docs",
+        "access": "PUBLIC",
+        "responses": {
+          "200": "HTML (Swagger UI)"
+        }
+      }
+    },
+    "data_types": {
+      "User": {
+        "id": "integer (auto-generated)",
+        "username": "string (unique, max 255 chars)",
+        "password": "string (hashed, max 255 chars)",
+        "email": "string (unique, valid email, max 255 chars)",
+        "roles": "array of strings (JSON)",
+        "items": "Collection of Item entities",
+        "images": "Collection of Image entities",
+        "links": "Collection of Link entities"
+      },
+      "Item": {
+        "id": "integer (auto-generated)",
+        "name": "string (required, max 255 chars)",
+        "description": "text (required)",
+        "informations": "object (optional, JSON)",
+        "skills": "object (optional, JSON)",
+        "datasource": "string (optional, max 255 chars)",
+        "startedAt": "date (optional, ISO 8601)",
+        "endedAt": "date (optional, ISO 8601)",
+        "location": "string (optional, max 255 chars)",
+        "contractType": "string (optional, max 100 chars)",
+        "companyName": "string (optional, max 255 chars)",
+        "user": "User entity (required)",
+        "images": "Collection of Image entities",
+        "links": "Collection of Link entities"
+      },
+      "Image": {
+        "id": "integer (auto-generated)",
+        "externalId": "integer (required)",
+        "user": "User entity (required)",
+        "item": "Item entity (required)"
+      },
+      "Link": {
+        "id": "integer (auto-generated)",
+        "url": "string (required, max 2048 chars)",
+        "user": "User entity (required)",
+        "item": "Item entity (required)"
+      }
+    },
+    "security": {
+      "authentication": "JWT Bearer token",
+      "public_endpoints": [
+        "/api/auth/register",
+        "/api/auth/login",
+        "/api/docs",
+        "/api/items/{id}/shared",
+        "/health"
+      ],
+      "protected_endpoints": "All other /api/* endpoints require authentication"
+    },
+    "pagination": {
+      "default_limit": "30",
+      "max_limit": "100",
+      "format": "Hydra pagination with @id, hydra:first, hydra:last, hydra:next"
+    },
+    "formats": {
+      "supported": ["application/json", "application/ld+json", "text/html"],
+      "default": "application/json"
+    }
+  }
