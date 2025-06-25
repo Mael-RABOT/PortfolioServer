@@ -4,7 +4,7 @@
     auto_https off  # We'll handle HTTPS with reverse proxy
 }
 
-:8080 {
+:8090 {
     # Enable PHP processing
     php_server
 
