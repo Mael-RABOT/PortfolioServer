@@ -7,7 +7,7 @@ services:
     container_name: symfony_frankenphp_prod
     network_mode: host
     ports:
-      - "127.0.0.1:8080:80"  # Only bind to localhost, Apache will proxy
+      - "127.0.0.1:8090:80"  # Only bind to localhost, Apache will proxy
     environment:
       - APP_ENV=${APP_ENV:-prod}
       - DATABASE_URL=${DATABASE_URL}
