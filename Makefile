@@ -172,6 +172,10 @@ git-advance: ## Advance the branch to the last commit - only for a single commit
 	git reset --hard $(ORIGIN_BRANCH)
 	git cherry-pick $(LAST_COMMIT_SHA)
 
+.PHONY: pull
+pull: ## Pull the last changes
+	git pull
+
 ##@ Production
 
 .PHONY: prod-stop
@@ -205,6 +209,7 @@ prod-cache-clear: ## Clear the production cache
 
 .PHONY: prod-reset
 prod-reset: ## Reset the production containers
+	make pull
 	make prod-stop
 	make prod-build
 	make prod-start

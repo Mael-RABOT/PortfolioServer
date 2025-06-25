@@ -15,8 +15,8 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: ImageRepository::class)]
 #[ApiResource(
     operations: [
-        new Get(),
-        new GetCollection(),
+        new Get(security: 'is_granted("PUBLIC_ACCESS")'),
+        new GetCollection(security: 'is_granted("PUBLIC_ACCESS")'),
         new Post(),
         new Put(),
         new Patch(),

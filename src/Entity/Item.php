@@ -19,8 +19,8 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\Entity(repositoryClass: ItemRepository::class)]
 #[ApiResource(
     operations: [
-        new Get(),
-        new GetCollection(),
+        new Get(security: 'is_granted("PUBLIC_ACCESS")'),
+        new GetCollection(security: 'is_granted("PUBLIC_ACCESS")'),
         new Post(),
         new Put(),
         new Patch(),

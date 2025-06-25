@@ -40,6 +40,13 @@ security:
         - { path: ^/api/auth/login, roles: PUBLIC_ACCESS }
         - { path: ^/api/docs, roles: PUBLIC_ACCESS }
         - { path: ^/api/items/[0-9]+/shared, roles: PUBLIC_ACCESS }
+        # Public GET access for items, links, and images
+        - { path: ^/api/items$, methods: [GET], roles: PUBLIC_ACCESS }
+        - { path: ^/api/items/[0-9]+$, methods: [GET], roles: PUBLIC_ACCESS }
+        - { path: ^/api/links$, methods: [GET], roles: PUBLIC_ACCESS }
+        - { path: ^/api/links/[0-9]+$, methods: [GET], roles: PUBLIC_ACCESS }
+        - { path: ^/api/images$, methods: [GET], roles: PUBLIC_ACCESS }
+        - { path: ^/api/images/[0-9]+$, methods: [GET], roles: PUBLIC_ACCESS }
         - { path: ^/api, roles: IS_AUTHENTICATED_FULLY }
 
 when@test:
