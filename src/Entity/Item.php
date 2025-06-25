@@ -14,6 +14,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ItemRepository::class)]
 #[ApiResource(
@@ -35,6 +36,10 @@ class Item
 
     #[ORM\Column(length: 255)]
     private ?string $name = null;
+
+    #[ORM\Column(length: 20)]
+    #[Assert\Choice(choices: ['EXPERIENCE', 'PROJECT'], message: 'Type must be either EXPERIENCE or PROJECT')]
+    private ?string $type = null;
 
     #[ORM\Column(type: Types::TEXT)]
     private ?string $description = null;
@@ -92,6 +97,18 @@ class Item
     public function setName(string $name): static
     {
         $this->name = $name;
+
+        return $this;
+    }
+
+    public function getType(): ?string
+    {
+        return $this->type;
+    }
+
+    public function setType(string $type): static
+    {
+        $this->type = $type;
 
         return $this;
     }
