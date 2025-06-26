@@ -2,13 +2,7 @@ controllers:
     resource: '../src/Controller/'
     type: attribute
 
-# Custom routes for shared functionality
-app_item_toggle_shared:
-    path: /api/items/{id}/toggle_shared
-    controller: App\Controller\ItemController::toggleShared
+# Login route for JWT authentication
+api_login:
+    path: /api/auth/login
     methods: [POST]
-
-app_item_shared_download:
-    path: /api/items/{id}/shared
-    controller: App\Controller\ItemController::sharedDownload
-    methods: [GET]

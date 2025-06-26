@@ -14,12 +14,6 @@ use Symfony\Component\Validator\Constraints as Assert;
             description: 'Register a new user',
             controller: 'App\Controller\AuthController::register',
             input: RegisterInput::class
-        ),
-        new Post(
-            uriTemplate: '/auth/login',
-            name: 'api_login',
-            description: 'Login user and get JWT token',
-            input: LoginInput::class
         )
     ]
 )]
@@ -35,15 +29,6 @@ class RegisterInput
     #[Assert\NotBlank]
     #[Assert\Email]
     public string $email;
-
-    #[Assert\NotBlank]
-    public string $password;
-}
-
-class LoginInput
-{
-    #[Assert\NotBlank]
-    public string $username;
 
     #[Assert\NotBlank]
     public string $password;

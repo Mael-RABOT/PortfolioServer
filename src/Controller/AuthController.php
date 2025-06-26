@@ -108,17 +108,4 @@ class AuthController extends AbstractController
             ]
         ], Response::HTTP_CREATED);
     }
-
-    public function login(
-        Request $request,
-        JWTTokenManagerInterface $jwtManager,
-        UserPasswordHasherInterface $passwordHasher,
-        EntityManagerInterface $entityManager
-    ): JsonResponse {
-        // This method should not be called directly when using json_login
-        // The security system will handle the authentication
-        return $this->json([
-            'error' => 'This endpoint should be accessed through the security system'
-        ], Response::HTTP_METHOD_NOT_ALLOWED);
-    }
 }
