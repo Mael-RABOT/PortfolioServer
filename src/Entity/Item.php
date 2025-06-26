@@ -38,7 +38,7 @@ class Item
     private ?string $name = null;
 
     #[ORM\Column(length: 20)]
-    #[Assert\Choice(choices: ['EXPERIENCE', 'PROJECT'], message: 'Type must be either EXPERIENCE or PROJECT')]
+    #[Assert\Choice(choices: ['EXPERIENCE', 'PROJECT', 'EDUCATION'], message: 'Type must be either EXPERIENCE, PROJECT or EDUCATION')]
     private ?string $type = null;
 
     #[ORM\Column(type: Types::TEXT)]
