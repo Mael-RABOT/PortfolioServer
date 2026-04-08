@@ -5,6 +5,7 @@ nelmio_cors:
             - '^https?://(localhost|127\.0\.0\.1|portfolio\.api\.maelrabot\.com)(:\d+)?$'
             - '^https://portfolio\.api\.maelrabot\.com$'
             - '^https://portfolio\.maelrabot\.com$'
+            - '^https://maelrabot\.com$'
             - '^https?://89\.168\.62\.189(:\d+)?$'
         allow_methods: ['GET', 'OPTIONS', 'POST', 'PUT', 'PATCH', 'DELETE']
         allow_headers: ['Content-Type', 'Authorization']
@@ -17,9 +18,11 @@ nelmio_cors:
                 - '^https?://(localhost|127\.0\.0\.1|portfolio\.api\.maelrabot\.com)(:\d+)?$'
                 - '^https://portfolio\.api\.maelrabot\.com$'
                 - '^https://portfolio\.maelrabot\.com$'
+                - '^https://maelrabot\.com$'
                 - '^https?://89\.168\.62\.189(:\d+)?$'
             allow_methods: ['GET', 'OPTIONS', 'POST', 'PUT', 'PATCH', 'DELETE']
             allow_headers: ['Content-Type', 'Authorization']
             expose_headers: ['Link']
             max_age: 3600
+
 
